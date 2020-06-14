@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -82,6 +83,7 @@ func (h *Handler) Login(c echo.Context) error {
 // @Security ApiKeyAuth
 // @Router /user [get]
 func (h *Handler) CurrentUser(c echo.Context) error {
+	fmt.Println("CurrentUser")
 	u, err := h.userStore.GetByID(userIDFromToken(c))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, utils.NewError(err))
@@ -221,6 +223,7 @@ func (h *Handler) Unfollow(c echo.Context) error {
 
 func userIDFromToken(c echo.Context) uint {
 	id, ok := c.Get("user").(uint)
+	//fmt.Println(id)
 	if !ok {
 		return 0
 	}
